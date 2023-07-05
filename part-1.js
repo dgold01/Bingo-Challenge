@@ -1,5 +1,19 @@
 function bingoCheck(calledNumbers, board) {
-    //checks to see if any row has bingo
+
+    //Checks for edge cases.
+    if(calledNumbers.length ===0 ) return 'The input for called numbers is empty'
+    if(board.length ===0 ) return 'The input for board is empty'
+    for (number of calledNumbers){
+        if(typeof number !== 'number') return 'Invalid input: Non-numeric value found in the called numbers input'
+    }
+    for (let row of board) {
+        if (row.some((number) => typeof number !== 'number')) {
+            return  'Invalid input: Non-numeric value found in the board input'
+        }
+    }
+
+
+    //Checks to see if any row has bingo. Returns true as soon as a winning row is found. 
     for (let row of board) {
         if (row.every((number) => calledNumbers.includes(number))) {
             console.log('We have a winner')
@@ -7,18 +21,21 @@ function bingoCheck(calledNumbers, board) {
         }
     }
 
+    //Splits the board into arrays of columns.
     const boardSplitIntoColumns = splitIntoColumns(board)
 
-    //checks to see if ant column has bingo
+    //Checks to see if any column has bingo. Returns true as soon as a winning column is found. 
     for (let column of boardSplitIntoColumns) {
         if (column.every((number) => calledNumbers.includes(number))) {
             console.log('We have a winner')
             return true;
         }
     }
+    //returns false if card will never get bingo
     console.log('No winner')
     return false;
 }
+
 
 function splitIntoColumns(board) {
     const columns = []
@@ -29,21 +46,10 @@ function splitIntoColumns(board) {
         }
         columns.push(columnArray)
     }
-   
     return columns
 }
 
 
-const calledNumbers = [
-    7, 4, 9, 5, 11, 17, 23, 2, 0, 14, 21, 24, 10, 16, 13, 6, 15, 25, 12, 22, 18, 20, 8, 19, 3, 26, 1
-];
 
-const board = [
-    [31, 1, 8, 48, 75],
-    [22, 14, 9, 11, 34],
-    [5, 17, 24, 37, 54],
-    [41, 19, 3, 26, 59],
-    [66, 72, 30, 29, 55]
-];
 
 module.exports={bingoCheck,splitIntoColumns}
